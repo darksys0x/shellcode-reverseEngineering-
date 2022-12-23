@@ -17,7 +17,6 @@
 //mov     rdx, gs: [rdx + 60h] peb
 //mov     rdx, [rdx + 18h] // [rdx+18] will result in a pointer to the object "PPEB_LDR_DATA"
 //mov     rdx, [rdx + 20h]// point to InMemoryOrderModuleList object and inside the object will point to the first member will be flink.
-//
 
 //mov     rsi, [rdx + 50h] //dll name buffer
 //movzx   rcx, word ptr[rdx + 4Ah]
@@ -55,22 +54,30 @@
 //
 
 
+DWORD rightRotate(DWORD n, unsigned int d)
+{
+	DWORD INT_BITS = 32;
+	/* In n>>d, first d bits are 0. To put last 3 bits of at
+			first, do bitwise or of n>>d with n <<(INT_BITS
+	   - d) */
+	return (n >> d) | (n << (INT_BITS - d));
+}
+
 int main() {
-	 
-	PEB* hamad = (PEB*)__readgsqword(0x60);
-	LDR_DATA_TABLE_ENTRY* tableentery = (LDR_DATA_TABLE_ENTRY*)hamad->Ldr->InMemoryOrderModuleList.Flink;
-	WCHAR* name = tableentery->FullDllName.Buffer;
-	int maxLength = tableentery->FullDllName.MaximumLength;
-	char* p = *(char*)name;
-	char c = *p;
-	if (c < 'a') {
-		c[]
-	}
-	else {
-		c = c - ' ';
-	}
+	//xor rdx, rdx
+    //mov     rdx, gs: [rdx + 60h]
+	PEB* hamad = (PEB*)__readgsbyte(0x60);
+	//mov     rdx, [rdx + 18h]
+	PEB_LDR_DATA* LODR = (PEB_LDR_DATA*) hamad->Ldr;
+	//mov     rdx, [rdx + 20h]
+	LDR_DATA_TABLE_ENTRY* loadEntery = (LDR_DATA_TABLE_ENTRY*) LODR->InMemoryOrderModuleList.Flink;
+	//rsi, [rdx + 50h]
+	PWSTR buffer_n = loadEntery->FullDllName.Buffer;
+	//movzx   rcx, word ptr[rdx + 4Ah]
+	USHORT mexlenth = loadEntery->FullDllName.MaximumLength;
 
+	
 
-
+	
 	return 0;
 }
