@@ -3,6 +3,26 @@
 #include <winternl.h>
 
 
+
+//00000000003B 41 01 C1                                      		add     r9d, eax
+//seg000:000000000000003E E2 ED                                         loop    loc_2D
+//seg000:0000000000000040 52                                            push    rdx             ; push "0A"
+//seg000:0000000000000041 41 51                                         push    r9
+//seg000:0000000000000043 48 8B 52 20                                   mov     rdx, [rdx+20h]
+//seg000:0000000000000047 8B 42 3C                                      mov     eax, [rdx+3Ch]
+//seg000:000000000000004A 48 01 D0                                      add     rax, rdx
+//seg000:000000000000004D 66 81 78 18 0B 02                             cmp     word ptr [rax+18h], 20Bh ; rax = "PE"
+//seg000:0000000000000053 0F 85 72 00 00 00                             jnz     loc_CB
+//seg000:0000000000000059 8B 80 88 00 00 00                             mov     eax, [rax+88h]
+//seg000:000000000000005F 48 85 C0                                      test    rax, rax
+//seg000:0000000000000062 74 67                                         jz      short loc_CB
+//seg000:0000000000000064 48 01 D0                                      add     rax, rdx
+//seg000:0000000000000067 50                                            push    rax
+//seg000:0000000000000068 8B 48 18                                      mov     ecx, [rax+18h]
+//seg000:000000000000006B 44 8B 40 20                                   mov     r8d, [rax+20h]
+//seg000:000000000000006F 49 01 D0                                      add     r8, rdx//
+
+
 //cld
 //and     rsp, 0FFFFFFFFFFFFFFF0h
 //call    sub_D6
